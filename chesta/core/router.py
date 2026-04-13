@@ -57,12 +57,17 @@ class MultiModelRouter:
         model = await self.get_best_model(requirement)
 
         try:
-            result = await self._dispatch_call(model, messages)
-            return result
+            return await self._dispatch_call(model, messages)
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code in [429, 500, 503]:
+                print(f"Model {model.id} overloaded/failed (Status {e.response.status_code}). Failover triggered...")
+                model.health = False
+                new_model = await self.get_best_model(requirement)
+                return await self._dispatch_call(new_model, messages)
+            raise
         except Exception as e:
-            print(f"Model {model.id} failed: {e}. Attempting failover...")
+            print(f"Unexpected error with {model.id}: {e}. Attempting failover...")
             model.health = False
-            # Simple failover to the next best
             new_model = await self.get_best_model(requirement)
             return await self._dispatch_call(new_model, messages)
 

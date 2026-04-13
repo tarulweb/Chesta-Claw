@@ -24,3 +24,6 @@ build-backend = "maturin"
 [tool.maturin]
 features = ["pyo3/extension-module"]
 module-name = "chesta.core.engine"
+
+[project.scripts]
+chesta = "chesta_cli:main"

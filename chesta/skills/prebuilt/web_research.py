@@ -10,7 +10,6 @@ class Skill:
     async def run(self, query: str):
         if not self.api_key:
             return "Serper API key not found. Please set SERPER_API_KEY environment variable."
-
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 "https://google.serper.dev/search",
@@ -18,11 +17,5 @@ class Skill:
                 json={"q": query}
             )
             data = response.json()
-
-            # Simple synthesis
             snippets = [result.get("snippet", "") for result in data.get("organic", [])[:5]]
             return "\n\n".join(snippets)
-
-    async def synthesize(self, snippets: list):
-        # Could use LLM here
-        return "Synthesis of research results..."

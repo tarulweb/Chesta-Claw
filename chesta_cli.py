@@ -10,6 +10,13 @@ def install():
         print("Python dependencies installed.")
         subprocess.run(["maturin", "build", "--release"], check=True)
         print("Rust engine built.")
+
+        print("Building UI dashboard...")
+        ui_dir = "chesta/ui/dashboard"
+        if os.path.exists(ui_dir):
+            subprocess.run(["npm", "install"], cwd=ui_dir, check=True)
+            subprocess.run(["npm", "run", "build"], cwd=ui_dir, check=True)
+
         print("Successfully installed.")
     except Exception as e:
         print(f"Installation failed: {e}")
@@ -27,10 +34,13 @@ def uninstall(purge=False):
     except Exception as e:
         print(f"Uninstallation failed: {e}")
 
-if __name__ == "__main__":
+def main():
     if len(sys.argv) > 1:
         if sys.argv[1] == "install":
             install()
         elif sys.argv[1] == "uninstall":
             purge = "--purge" in sys.argv
             uninstall(purge)
+
+if __name__ == "__main__":
+    main()

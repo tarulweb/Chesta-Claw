@@ -7,9 +7,11 @@ import {
   Settings,
   Terminal as TerminalIcon,
   Puzzle,
-  MessageSquare
+  MessageSquare,
+  GitBranch
 } from 'lucide-react';
 import Link from 'next/link';
+import './globals.css';
 
 export default function RootLayout({
   children,
@@ -20,6 +22,7 @@ export default function RootLayout({
     { icon: LayoutDashboard, label: 'Dashboard', href: '/' },
     { icon: Users, label: 'Agents', href: '/agents' },
     { icon: Zap, label: 'Skills', href: '/skills' },
+    { icon: GitBranch, label: 'Workflows', href: '/workflows' },
     { icon: Cpu, label: 'Models', href: '/models' },
     { icon: Puzzle, label: 'MCP', href: '/mcp' },
     { icon: MessageSquare, label: 'Integrations', href: '/integrations' },

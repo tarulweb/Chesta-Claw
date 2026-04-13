@@ -13,12 +13,14 @@ def setup_system():
     return memory
 
 def test_memory_system():
-    ms = MemorySystem("chesta/memory/test.sqlite")
+    test_path = "chesta/memory/test_mem"
+    ms = MemorySystem(test_path)
     ms.update_user_preference("test_key", "test_value")
     assert ms.get_user_preference("test_key") == "test_value"
+    import shutil
     import os
-    if os.path.exists("chesta/memory/test.sqlite"):
-        os.remove("chesta/memory/test.sqlite")
+    if os.path.exists(test_path):
+        shutil.rmtree(test_path)
 
 def test_skill_loading():
     se = SkillEngine("chesta/skills/prebuilt")
