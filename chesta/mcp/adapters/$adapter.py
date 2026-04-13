@@ -5,6 +5,3 @@ class Adapter:
 
     async def send(self, to, message):
         return f"Message sent via $adapter to {to}: {message}"
-
-    async def receive(self):
-        return []

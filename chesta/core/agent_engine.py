@@ -6,9 +6,22 @@ class AgentEngine:
     def __init__(self):
         self.active_tasks = {}
 
-    async def run_task(self, task_id: str, command: str):
+    async def run_task(self, task_id: str, command: str, skill_name: str = None, **kwargs):
         print(f"Agent executing task {task_id}: {command}")
-        # In the future, this will use Docker/MicroVMs for sandboxing via the Rust engine
+
+        # Security check before execution
+        from chesta.core.security import SecurityManager
+        security = SecurityManager()
+        if not security.check_command(command):
+            return f"Error: Command '{command}' is blocked by security policy."
+
+        if skill_name:
+            from chesta.core.skill_engine import SkillEngine
+            skills = SkillEngine()
+            skills.load_skills()
+            return await skills.execute_skill(skill_name, **kwargs)
+
+        # Fallback to Rust engine execution
         result = execute_command(command)
         return result
 
