@@ -1,0 +1,26 @@
+[project]
+name = "chesta"
+version = "0.1.0"
+description = "Next-generation agentic OS"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlmodel",
+    "faiss-cpu",
+    "openai",
+    "httpx",
+    "pydantic",
+    "python-dotenv",
+    "rich",
+    "psutil",
+    "docker",
+]
+
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+module-name = "chesta.core.engine"
